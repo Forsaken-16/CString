@@ -1,4 +1,3 @@
-```markdown
 # CString: Arena-Backed String Library
 
 A lightweight, memory-efficient string manipulation library for C. This library utilizes an **Arena Allocator** to handle memory, ensuring high performance and eliminating manual `free()` calls for individual strings.
@@ -36,7 +35,7 @@ This project is configured to be built as a static library. Note that the `CMake
    ```bash
    mkdir build && cd build
 
-```
+    ```
 
 3. Generate the build files and compile:
 ```bash
