@@ -1,4 +1,5 @@
 #include <cstring.h>
+#include <stdio.h>
 #include <string.h>
 
 struct String {
@@ -114,6 +115,67 @@ String *string_trim(Arena *arena, String *str) {
 
 	st->str = new_str;
 	st->length = len;
+
+	return st;
+}
+
+char *read_line(FILE *stream) {
+	size_t capacity = 16; /* Initial capacity */
+	size_t length = 0;
+	char *buffer = NULL;
+	char *temp = NULL;
+	int c;
+
+	/* Allocate initial buffer */
+	buffer = (char *)m_align_alloc(capacity * sizeof(char));
+	if (buffer == NULL) {
+		return NULL;
+	}
+
+	/* Read characters one by one */
+	while ((c = fgetc(stream)) != EOF && c != '\n') {
+		/* Check if we need to expand the buffer */
+		if (length + 1 >= capacity) {
+			capacity *= 2;
+			temp = (char *)m_align_realloc(buffer, capacity / 2 * sizeof(char),
+										   capacity * sizeof(char));
+			if (temp == NULL) {
+				m_align_free(buffer);
+				return NULL;
+			}
+			buffer = temp;
+		}
+
+		buffer[length++] = (char)c;
+	}
+
+	/* Handle empty input or EOF */
+	if (length == 0 && c == EOF) {
+		m_align_free(buffer);
+		return NULL;
+	}
+
+	/* Null-terminate the string */
+	buffer[length] = '\0';
+
+	/* Optional: shrink buffer to actual size to save memory */
+	temp = (char *)m_align_realloc(buffer, capacity * sizeof(char),
+								   (length + 1) * sizeof(char));
+	if (temp != NULL) {
+		buffer = temp;
+	}
+
+	return buffer;
+}
+String *string_get(Arena *arena) {
+	char *text;
+	String *st;
+
+	fflush(stdout);
+	text = read_line(stdin);
+
+	st = string_from(arena, text);
+	m_align_free(text);
 
 	return st;
 }
