@@ -58,13 +58,14 @@ This will produce a static library named `libcstring.a` from the source file `li
 | `string_from` | Creates a new `String` from a standard C string literal. |
 | `string` | Returns the raw `char*` representation of the `String`. |
 | `string_len` | Returns the number of characters in the string. |
+| `string_get` | Takes string input from console. |
 
 ### Manipulation
 
 | Function | Description |
 | --- | --- |
 | `string_concat` | Joins two `String` objects into a new one. |
-| `string_concat_cstr` | Joins a `String` with a raw C-string. |
+| `string_concat_cstr` | Joins two raw C-string. |
 | `string_sub` | Extracts a substring from `begin` (inclusive) to `end` (exclusive). |
 | `string_trim` | Removes leading and trailing whitespace. |
 
