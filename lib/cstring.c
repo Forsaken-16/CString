@@ -120,11 +120,16 @@ String *string_trim(Arena *arena, String *str) {
 }
 
 char *read_line(FILE *stream) {
-	size_t capacity = 16; /* Initial capacity */
-	size_t length = 0;
-	char *buffer = NULL;
-	char *temp = NULL;
+	size_t capacity;
+	size_t length;
+	char *buffer;
+	char *temp;
 	int c;
+
+	capacity = 16;
+	length = 0;
+	buffer = NULL;
+	temp = NULL;
 
 	buffer = (char *)m_align_alloc(capacity * sizeof(char));
 	if (buffer == NULL) {
@@ -135,8 +140,8 @@ char *read_line(FILE *stream) {
 		/* Check if we need to expand the buffer */
 		if (length + 1 >= capacity) {
 			capacity *= 2;
-			temp = (char *)m_align_realloc(buffer, capacity / 2 * sizeof(char),
-										   capacity * sizeof(char));
+			temp = (char *)m_align_realloc(
+				buffer, (capacity / 2) * sizeof(char), capacity * sizeof(char));
 			if (temp == NULL) {
 				m_align_free(buffer);
 				return NULL;
