@@ -126,13 +126,11 @@ char *read_line(FILE *stream) {
 	char *temp = NULL;
 	int c;
 
-	/* Allocate initial buffer */
 	buffer = (char *)m_align_alloc(capacity * sizeof(char));
 	if (buffer == NULL) {
 		return NULL;
 	}
 
-	/* Read characters one by one */
 	while ((c = fgetc(stream)) != EOF && c != '\n') {
 		/* Check if we need to expand the buffer */
 		if (length + 1 >= capacity) {
@@ -149,16 +147,13 @@ char *read_line(FILE *stream) {
 		buffer[length++] = (char)c;
 	}
 
-	/* Handle empty input or EOF */
 	if (length == 0 && c == EOF) {
 		m_align_free(buffer);
 		return NULL;
 	}
 
-	/* Null-terminate the string */
 	buffer[length] = '\0';
 
-	/* Optional: shrink buffer to actual size to save memory */
 	temp = (char *)m_align_realloc(buffer, capacity * sizeof(char),
 								   (length + 1) * sizeof(char));
 	if (temp != NULL) {
